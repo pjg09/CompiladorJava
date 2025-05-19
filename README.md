@@ -20,7 +20,11 @@ x, y, z (identificadores)
 5, 3.14 (números)
 
 =, ;, (, ) (símbolos)
+
+
 AFD: 
+
+
         [inicio]
             |
         (letra)
