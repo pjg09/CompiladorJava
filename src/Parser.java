@@ -1,10 +1,12 @@
-// Parser.java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class Parser {
     private Lexer lexer;
     private Token currentToken;
-    private Map<String, String> symbolTable = new HashMap<>(); // Para análisis semántico
+    private Map<String, Variable> symbolTable = new HashMap<>();
 
     public Parser(Lexer lexer) {
         this.lexer = lexer;
@@ -57,17 +59,15 @@ public class Parser {
 
         eat(Token.Type.SEMICOLON);
 
-        // Análisis semántico: Guardar la variable en la tabla de símbolos
         if (symbolTable.containsKey(varName)) {
             error("Variable ya declarada: " + varName);
         }
 
-        // Verificar tipo correcto
         if (type.equals("int") && value.contains(".")) {
             error("Tipo int no puede contener punto decimal.");
         }
 
-        symbolTable.put(varName, type);
+        symbolTable.put(varName, new Variable(type, value));
         System.out.println("Declaración válida: " + type + " " + varName + " = " + value);
     }
 
@@ -93,6 +93,20 @@ public class Parser {
             error("Variable no declarada: " + right);
         }
 
-        System.out.println("Impresión válida: print(" + left + " + " + right + ")");
+        Variable varLeft = symbolTable.get(left);
+        Variable varRight = symbolTable.get(right);
+
+        double valLeft = Double.parseDouble(varLeft.value);
+        double valRight = Double.parseDouble(varRight.value);
+        double result = valLeft + valRight;
+
+        String resultStr = "Resultado: " + result;
+        System.out.println(resultStr);
+
+        try {
+            Files.writeString(Path.of("test/output.txt"), resultStr);
+        } catch (IOException e) {
+            throw new RuntimeException("No se pudo escribir en el archivo de salida.");
+        }
     }
 }

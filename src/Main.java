@@ -1,4 +1,3 @@
-// Main.java
 import java.nio.file.*;
 
 public class Main {

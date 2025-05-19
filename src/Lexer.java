@@ -1,6 +1,3 @@
-// Lexer.java
-import java.util.*;
-
 public class Lexer {
     private String input;
     private int pos = 0;

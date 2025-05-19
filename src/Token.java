@@ -1,4 +1,3 @@
-// Token.java
 public class Token {
     public enum Type {
         INT, FLOAT, PRINT, IDENTIFIER, NUMBER, EQUAL, PLUS, SEMICOLON, LPAREN, RPAREN, EOF
